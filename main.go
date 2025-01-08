@@ -1,26 +1,26 @@
 package main
 
 import (
-	"fmt"
+	"log"
+	"lol-statistics/api/telegram"
 	"net/http"
-	"os"
 	"github.com/joho/godotenv"
 )
 
 func main() {
-	_ = godotenv.Load(".env.local")
+	err := godotenv.Load(".env.local")
 
-	http.HandleFunc("/", func (w http.ResponseWriter, r *http.Request) {
+	if err != nil {
+		log.Fatal("Failed to load env files")
+	}
+
+	mux := http.NewServeMux()
+
+	mux.HandleFunc("/", func (w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Hello main!"))
 	})
 
-	http.HandleFunc("/bot", func (w http.ResponseWriter, r *http.Request) {
-		fullPath := os.Getenv("TELEGRAM_API")
+	mux.HandleFunc("/bot", telegram.GetBasicBotInfo)
 
-		resp, _ := http.Get(fmt.Sprintf("%s%s", fullPath, "/getMe"))
-
-		w.Write([]byte(fmt.Sprintf("client: status code: %d\n", resp.StatusCode)))
-	})
-
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":8080", mux)
 }
