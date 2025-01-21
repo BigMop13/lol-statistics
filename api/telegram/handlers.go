@@ -28,3 +28,15 @@ func GetBasicBotInfo(w http.ResponseWriter, r *http.Request) {
 
 	w.Write(body)
 }
+
+func GetBasicStats() {
+	log.Print("to do")
+}
+
+func GetRanking() {
+	log.Print("to do")
+}
+
+func SendInfoToTelegram() {
+	log.Print("to do")
+}

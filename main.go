@@ -20,7 +20,11 @@ func main() {
 		w.Write([]byte("Hello main!"))
 	})
 
-	mux.HandleFunc("/bot", telegram.GetBasicBotInfo)
+	mux.HandleFunc("/bot/info", telegram.GetBasicBotInfo)
+	mux.HandleFunc("/bot/send-info", telegram.GetBasicBotInfo)
+
+	mux.HandleFunc("/lol/stats", telegram.GetBasicBotInfo)
+	mux.HandleFunc("/lol/ranking", telegram.GetBasicBotInfo)
 
 	http.ListenAndServe(":8080", mux)
 }
